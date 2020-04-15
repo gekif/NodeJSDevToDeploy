@@ -1,29 +1,29 @@
 const express = require('express');
+const exphbs = require('express-handlebars');
 
 const app = express();
 
 
-// How Middleware Works
-app.use((req, res, next) => {
-    // console.log(Date.now());
+// Handlebars Middleware
+app.engine('handlebars', exphbs({
+    defaultLayout: 'main'
+}));
 
-    req.name = 'Dzulfikar Maulana';
-
-    next();
-});
+app.set('view engine', 'handlebars');
 
 
 // Index Route
 app.get('/', (req, res) => {
-    console.log(req.name);
+    const title = 'Welcome';
 
-    // res.send('INDEX');
-    res.send(req.name);
+    res.render('index', {
+        title: title
+    });
 });
 
 // About Route
 app.get('/about', (req, res) => {
-    res.send('ABOUT');
+    res.render('about');
 });
 
 
