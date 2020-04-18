@@ -77,7 +77,20 @@ app.post('/ideas', (req, res) => {
         });
 
     } else {
-        res.send('Passed');
+        const newUser = {
+            title: req.body.title,
+            details: req.body.title
+        };
+
+        new Idea(newUser)
+            .save()
+            .then(idea => {
+                res.redirect('/ideas');
+
+                console.log('Insert Success');
+
+                console.log(idea._doc);
+            });
     }
 });
 
