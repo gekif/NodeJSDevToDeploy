@@ -1,7 +1,20 @@
 const express = require('express');
 const exphbs = require('express-handlebars');
+const mongoose = require('mongoose');
 
 const app = express();
+
+
+// Map Global Promise - Get Rid of Warning
+mongoose.Promise = global.Promise;
+
+// Connect to Mongoose
+mongoose.connect('mongodb://127.0.0.1:27017/vidjot-dev', {
+    useMongoClient: true
+})
+    .then(() => console.log('MongoDB Connected...'))
+    .catch(err => console.log(err)
+);
 
 
 // Handlebars Middleware
