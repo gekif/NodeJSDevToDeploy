@@ -17,6 +17,12 @@ mongoose.connect('mongodb://127.0.0.1:27017/vidjot-dev', {
 );
 
 
+// Load Idea Model
+require('./models/Idea');
+
+const Idea = mongoose.model('ideas');
+
+
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
