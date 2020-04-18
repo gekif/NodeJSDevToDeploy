@@ -68,6 +68,18 @@ app.get('/ideas/add', (req, res) => {
     res.render('ideas/add');
 });
 
+// Edit Idea Form
+app.get('/ideas/edit/:id', (req, res) => {
+    Idea.findOne({
+        _id: req.params.id
+    })
+        .then(idea => {
+            res.render('ideas/edit', {
+                idea: idea
+            });
+        });
+});
+
 // Process Form
 app.post('/ideas', (req, res) => {
     let errors = [];
@@ -90,7 +102,7 @@ app.post('/ideas', (req, res) => {
     } else {
         const newUser = {
             title: req.body.title,
-            details: req.body.title
+            details: req.body.details
         };
 
         new Idea(newUser)
