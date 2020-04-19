@@ -5,6 +5,7 @@ const methodOverride = require('method-override');
 const flash = require('connect-flash');
 const session = require('express-session');
 const bodyParser = require('body-parser');
+const passport = require('passport');
 const mongoose = require('mongoose');
 
 const app = express();
@@ -13,6 +14,10 @@ const app = express();
 // Load routes
 const ideas = require('./routes/ideas');
 const users = require('./routes/users');
+
+
+// Passport Config
+require('./config/passport')(passport);
 
 
 // Map Global Promise - Get Rid of Warning
@@ -26,6 +31,7 @@ mongoose.connect('mongodb://127.0.0.1:27017/vidjot-dev', {
     .catch(err => console.log(err)
 );
 
+
 // Handlebars Middleware
 app.engine('handlebars', exphbs({
     defaultLayout: 'main'
@@ -37,9 +43,6 @@ app.set('view engine', 'handlebars');
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use(bodyParser.json());
-
-// Static Folder
-app.use(express.static(path.join(__dirname, 'public')));
 
 // Method Override Middleware
 app.use(methodOverride('_method'));
@@ -53,6 +56,7 @@ app.use(session({
 
 app.use(flash());
 
+
 // Global Variables
 app.use((req, res, next) => {
     res.locals.success_msg = req.flash('success_msg');
@@ -63,6 +67,10 @@ app.use((req, res, next) => {
 
     next();
 });
+
+
+// Static Folder
+app.use(express.static(path.join(__dirname, 'public')));
 
 
 // Index Route
